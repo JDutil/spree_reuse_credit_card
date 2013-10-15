@@ -3,13 +3,13 @@ require 'spec_helper'
 describe "PayWithCreditCards" do
   describe "GET /checkout/payment" do
 
-    let (:user) { Factory(:user) }
+    let (:user) { create(:user) }
     
     before(:each) do
-      @bogus_payment_method = Factory(:bogus_payment_method, :display_on => :front_end)
-      Factory(:payment_method, :display_on => :front_end)
+      @bogus_payment_method = create(:bogus_payment_method, :display_on => :front_end)
+      create(:payment_method, :display_on => :front_end)
 
-      shipping_method = Factory(:shipping_method)
+      shipping_method = create(:shipping_method)
       Spree::ShippingMethod.stub(:all_available) { [shipping_method] }
 
       sign_in_as!(user)
@@ -19,9 +19,9 @@ describe "PayWithCreditCards" do
       subject { page }
 
       before do
-        Factory(:product)
-        Factory(:country)
-        Factory(:state)
+        create(:product)
+        create(:country)
+        create(:state)
 
         Spree::CreditCard.all.map(&:destroy)
 
@@ -80,9 +80,9 @@ describe "PayWithCreditCards" do
       before(:each) do
 
         # set up existing payments with this credit card
-        @credit_card = Factory(:credit_card, :gateway_payment_profile_id => 'FAKE_GATEWAY_ID')
+        @credit_card = create(:credit_card, :gateway_payment_profile_id => 'FAKE_GATEWAY_ID')
 
-        order = Factory(:order_in_delivery_state, :user => user)
+        order = create(:order_in_delivery_state, :user => user)
         order.update!  # set order.total
 
         # go to payment state
@@ -90,7 +90,7 @@ describe "PayWithCreditCards" do
         order.state.should eq('payment')
 
         # add a payment 
-        payment = Factory(:payment, :order => order, :source =>  @credit_card, :amount => order.total, :payment_method => @bogus_payment_method)
+        payment = create(:payment, :order => order, :source =>  @credit_card, :amount => order.total, :payment_method => @bogus_payment_method)
 
         # go to confirm
         order.next

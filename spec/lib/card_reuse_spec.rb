@@ -12,35 +12,35 @@ describe CardReuse do
     end
 
     context 'with a valid user' do
-      let(:user) { mock(:user) }
+      let(:user) { double(:user) }
 
       context 'with payments' do
         let(:reuseable_source) {
-          mock(:reuseable_source).tap do |source|
+          double(:reuseable_source).tap do |source|
             fixture.stub(:valid_for_reuse?).with(source).and_return(true)
           end
         }
 
         let(:non_reuseable_source) {
-          mock(:non_reuseable_source).tap do |source|
+          double(:non_reuseable_source).tap do |source|
             fixture.stub(:valid_for_reuse?).with(source).and_return(false)
           end
         }
 
         let(:first_reusable_payment) {
-          mock(:first_reusable_payment).tap do |payment|
+          double(:first_reusable_payment).tap do |payment|
             payment.stub(:source).and_return(reuseable_source)
           end
         }
 
         let(:second_reusable_payment) {
-          mock(:second_reusable_payment).tap do |payment|
+          double(:second_reusable_payment).tap do |payment|
             payment.stub(:source).and_return(reuseable_source)
           end          
         }
 
         let(:non_reusable_payment) {
-          mock(:non_reusable_payment).tap do |payment|
+          double(:non_reusable_payment).tap do |payment|
             payment.stub(:source).and_return(non_reuseable_source)
           end
         }
@@ -74,7 +74,7 @@ describe CardReuse do
 
   describe '#valid_for_resuse' do
     let(:source) {
-      mock(:source).tap do |s|
+      double(:source).tap do |s|
         s.stub(:gateway_payment_profile_id).and_return('gateway_payment_profile_id')
         s.stub(:gateway_customer_profile_id).and_return('gateway_customer_profile_id')
         s.stub(:deleted?).and_return(false)
