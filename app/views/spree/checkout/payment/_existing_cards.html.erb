@@ -1,7 +1,7 @@
 <%= content_for :head do %>
   <%= javascript_tag do -%>
       <%== "var AUTH_TOKEN = #{form_authenticity_token.inspect};" if protect_against_forgery? %>
-      var original_button_text = "<%= t(:save_and_continue) %>";
+      var original_button_text = "<%= Spree.t(:save_and_continue) %>";
   <% end -%>
 <% end %>
 
@@ -50,7 +50,7 @@
             <td><%= card.year %></td>
             <td><%= radio_button_tag "existing_card", card.id, (@cards.size ==1) %></td> <%# if we only have 1 saved card, autoselect %>
             <td>
-            <%= link_to t(:delete),
+            <%= link_to Spree.t(:delete),
                 spree.credit_card_url(card),
                 :remote => true, :method => :delete,
                 :confirm => 'Are you sure?' %>
